@@ -1,2 +1,2 @@
 # linux_proj
-For linux api learning
+共享内存与信号量的基本使用demo
