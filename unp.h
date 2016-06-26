@@ -1,3 +1,5 @@
+#ifndef __HEAD_UNP
+#define __HEAD_UNP
 #include<string.h>
 #include<stdio.h>
 #include<sys/types.h>
@@ -12,4 +14,4 @@
 #include<sys/epoll.h>
 #include<fcntl.h>
 #include <sys/ipc.h>
-
+#endif
