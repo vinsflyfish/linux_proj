@@ -24,19 +24,19 @@ class CQueue{
 		m_sizeBlock = size - QUEUE_HEAD_SIZE;
 	}
 
-	void createHeader(uint64_t flow,uint32_t datalen,char* sHead){
+	void createHeader(uint64_t other,uint32_t datalen,char* sHead){
 		memcpy(sHead,&datalen,sizeof(datalen));
-		memcpy(sHead + sizeof(datalen),&flow,sizeof(flow));
+		memcpy(sHead + sizeof(datalen),&other,sizeof(other));
 	}
 
-	int enqueue(uint64_t flow,uint32_t datalen,const char* data){
+	int enqueue(uint64_t other,uint32_t datalen,const char* data){
 		char sHead[QUEUE_HEAD_SIZE];
 		unsigned head = *_head;
 		unsigned tail = *_tail;
 		size_t freelen = head > tail ? head - tail : head + m_sizeBlock - tail;
 		if(freelen <= datalen + QUEUE_HEAD_SIZE) 
 			return -1;
-		createHeader(flow,datalen,sHead);
+		createHeader(other,datalen,sHead);
 		//copy header
 		size_t nTailLeft = m_sizeBlock - tail;
 		if(nTailLeft >= QUEUE_HEAD_SIZE){
@@ -66,7 +66,7 @@ class CQueue{
 		return 0;
 	}
 
-	int dequeue(uint64_t &flow,uint32_t &datalen,char* data){
+	int dequeue(uint64_t &other,uint32_t &datalen,char* data){
 		if(*_head == *_tail){
 			datalen = 0;
 			return 0;
@@ -91,7 +91,7 @@ class CQueue{
 			head = headleft;
 		}
 		datalen = *(uint32_t*)sHead;
-		flow = *(uint64_t*)(sHead+sizeof(datalen));
+		other = *(uint64_t*)(sHead+sizeof(datalen));
 
 		tailleft = m_sizeBlock - head;
 		if(tailleft >= datalen){
